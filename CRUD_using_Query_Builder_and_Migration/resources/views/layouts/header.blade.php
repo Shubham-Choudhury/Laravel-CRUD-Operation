@@ -9,7 +9,7 @@
   <body>
     <nav class="navbar navbar-expand-lg mb-5 bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand text-white" href="/">Navbar</a>
+          <a class="navbar-brand text-white" href="/">CRUD using Query Builder and Migration</a>
             @stack('btn')
         </div>
       </nav>
