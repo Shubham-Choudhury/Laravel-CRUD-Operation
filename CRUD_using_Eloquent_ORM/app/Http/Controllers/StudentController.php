@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Student;
 
 class StudentController extends Controller
 {
@@ -14,9 +14,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = DB::table('students')->get();
-        $data = compact('students');
-        return view('index', $data);
+        $students = Student::all();
+        return view('index', compact('students'));
     }
 
     /**
@@ -44,16 +43,14 @@ class StudentController extends Controller
             'city' => 'required',
         ]);
 
-        DB::table('students')->insert([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'city' => $request->city,
-        ]);
+        $student = new Student;
+        $student->first_name = $request->first_name;
+        $student->last_name = $request->last_name;
+        $student->email = $request->email;
+        $student->city = $request->city;
+        $student->save();
 
-        return redirect()->route('index')->with('success', 'Student added successfully.');
-
-        
+        return redirect()->route('index')->with('success', 'Student created successfully.');
     }
 
     /**
@@ -64,11 +61,10 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $student = DB::table('students')->where('id', $id)->first();
-        if($student){
-            $data = compact('student');
-            return view('show', $data);
-        }else{
+        $student = Student::find($id);
+        if($student) {
+            return view('show', compact('student'));
+        } else {
             return redirect()->route('index')->with('error', 'Student not found.');
         }
     }
@@ -81,11 +77,10 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        $student = DB::table('students')->where('id', $id)->first();
-        if($student){
-            $data = compact('student');
-            return view('edit', $data);
-        }else{
+        $student = Student::find($id);
+        if($student) {
+            return view('edit', compact('student'));
+        } else {
             return redirect()->route('index')->with('error', 'Student not found.');
         }
     }
@@ -106,15 +101,16 @@ class StudentController extends Controller
             'city' => 'required',
         ]);
 
-        if(DB::table('students')->where('id', $id)->first()){
-            DB::table('students')->where('id', $id)->update([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'email' => $request->email,
-                'city' => $request->city,
-            ]);
-            return redirect()->route('index')->with('update', 'Student updated successfully.');
-        }else{
+        $student = Student::find($id);
+        if($student) {
+            $student->first_name = $request->first_name;
+            $student->last_name = $request->last_name;
+            $student->email = $request->email;
+            $student->city = $request->city;
+            $student->save();
+
+            return redirect()->route('index')->with('success', 'Student updated successfully.');
+        } else {
             return redirect()->route('index')->with('error', 'Student not found.');
         }
     }
@@ -127,10 +123,11 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        if(DB::table('students')->where('id', $id)->first()){
-            DB::table('students')->where('id', $id)->delete();
-            return redirect()->route('index')->with('delete', 'Student deleted successfully.');
-        }else{
+        $student = Student::find($id);
+        if($student) {
+            $student->delete();
+            return redirect()->route('index')->with('success', 'Student deleted successfully.');
+        } else {
             return redirect()->route('index')->with('error', 'Student not found.');
         }
     }
