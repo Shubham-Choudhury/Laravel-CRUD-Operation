@@ -14,7 +14,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $students = DB::table('students')->get();
+        $data = compact('students');
+        return view('index', $data);
     }
 
     /**
@@ -24,7 +26,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('index');
+        return view('create');
     }
 
     /**
@@ -35,12 +37,23 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'city' => 'required',
+        ]);
+
         DB::table('students')->insert([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'city' => $request->city,
         ]);
+
+        return redirect()->route('index');
+
+        
     }
 
     /**
@@ -51,7 +64,9 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = DB::table('students')->where('id', $id)->first();
+        $data = compact('student');
+        return view('show', $data);
     }
 
     /**
@@ -62,7 +77,9 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = DB::table('students')->where('id', $id)->first();
+        $data = compact('student');
+        return view('edit', $data);
     }
 
     /**
@@ -74,7 +91,21 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'city' => 'required',
+        ]);
+
+        DB::table('students')->where('id', $id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'city' => $request->city,
+        ]);
+
+        return redirect()->route('index');
     }
 
     /**
@@ -85,6 +116,7 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('students')->where('id', $id)->delete();
+        return redirect()->route('index');
     }
 }

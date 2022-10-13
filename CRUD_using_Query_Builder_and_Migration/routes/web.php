@@ -14,4 +14,13 @@ use App\Http\Controllers\StudentController;
 |
 */
 
-Route::resource('/', StudentController::class);
+// Route::resource('/', StudentController::class);
+
+Route::get('/', [StudentController::class, 'index'])->name('index');
+Route::get('/create', [StudentController::class, 'create']);
+Route::post('/store', [StudentController::class, 'store']);
+Route::get('/show/{id}', [StudentController::class, 'show']);
+Route::get('/edit/{id}', [StudentController::class, 'edit']);
+Route::post('/update/{id}', [StudentController::class, 'update']);
+Route::get('/delete/{id}', [StudentController::class, 'destroy']);
+
