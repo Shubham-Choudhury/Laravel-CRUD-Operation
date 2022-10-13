@@ -14,6 +14,7 @@
             <h3 class="text-center my-3">Add Data</h3>
             <form method="post" action="/update/{{$student->id}}">
                 @csrf
+                @method('PUT')
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">First Name</label>
                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="first_name" value="{{$student->first_name}}">
