@@ -28,9 +28,17 @@
                     <td>{{$student->first_name}}</td>
                     <td>{{$student->last_name}}</td>
                     <td class="d-flex justify-content-evenly">
-                        <a href="/show/{{$student->id}}" class="btn btn-primary">View</a>
-                        <a href="/edit/{{$student->id}}" class="btn btn-warning">Edit</a>
-                        <a href="/delete/{{$student->id}}" class="btn btn-danger">Delete</a>
+                        {{-- <a href="/show/{{$student->id}}" class="btn btn-primary">View</a> --}}
+                        {{-- <a href="{{route('show', ['id'=>$student->id])}}" class="btn btn-primary">View</a> --}}
+                        <a href="{{url('/show')}}/{{$student->id}}" class="btn btn-primary">View</a>
+
+                        {{-- <a href="/edit/{{$student->id}}" class="btn btn-warning">Edit</a> --}}
+                        <a href="{{route('edit', ['id'=>$student->id])}}" class="btn btn-warning">Edit</a>
+                        {{-- <a href="{{url('/edit')}}/{{$student->id}}" class="btn btn-warning">Edit</a> --}}
+
+                        {{-- <a href="/delete/{{$student->id}}" class="btn btn-danger">Delete</a>
+                        <a href="{{route('delete', ['id'=>$student->id])}}" class="btn btn-danger">Delete</a> --}}
+                        <a href="{{url('/delete')}}/{{$student->id}}" class="btn btn-danger">Delete</a>
                     </td>
             @endforeach
 
