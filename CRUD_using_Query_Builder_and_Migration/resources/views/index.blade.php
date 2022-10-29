@@ -22,9 +22,9 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($students as $student)
+            @foreach($students as $key=> $student)
                 <tr>
-                    <th scope="row">{{$student->id}}</th>
+                    <th scope="row">{{$key+1}}</th>
                     <td>{{$student->first_name}}</td>
                     <td>{{$student->last_name}}</td>
                     <td class="d-flex justify-content-evenly">

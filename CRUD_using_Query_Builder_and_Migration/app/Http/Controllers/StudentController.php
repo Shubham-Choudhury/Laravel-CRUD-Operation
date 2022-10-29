@@ -127,11 +127,20 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        if(DB::table('students')->where('id', $id)->first()){
+        $student = DB::table('students')->where('id', $id)->first();
+
+        if(!is_null($student)){
             DB::table('students')->where('id', $id)->delete();
             return redirect()->route('index')->with('delete', 'Student deleted successfully.');
         }else{
             return redirect()->route('index')->with('error', 'Student not found.');
         }
+
+        // if(DB::table('students')->where('id', $id)->first()){
+        //     DB::table('students')->where('id', $id)->delete();
+        //     return redirect()->route('index')->with('delete', 'Student deleted successfully.');
+        // }else{
+        //     return redirect()->route('index')->with('error', 'Student not found.');
+        // }
     }
 }
